@@ -70,7 +70,9 @@ These files are still included in case you also want to reuse parts of the desig
 
 ## Notes
 
-The product cards in `index.html` are static placeholders. Replace the product names, prices, images, and links with your real products before launch.
+The `Keep Climbing Mountain Graphic Tee` product has been added to the homepage and has its own product page at `keep-climbing-mountain-tee.html`.
+
+The current product image is a temporary SVG mockup at `assets/keep-climbing-mountain-tee.svg`. Before launch, replace it or add your exported Printify mockups, then update the image paths in `index.html` and `keep-climbing-mountain-tee.html`.
 
 ---
 
