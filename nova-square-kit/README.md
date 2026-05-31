@@ -72,6 +72,11 @@ These files are still included in case you also want to reuse parts of the desig
 
 The `Keep Climbing Mountain Graphic Tee` product has been added to the homepage and has its own product page at `keep-climbing-mountain-tee.html`.
 
+Collection pages have also been added:
+
+- `nova-trekking-collection.html`
+- `defind.html`
+
 The current product image is a temporary SVG mockup at `assets/keep-climbing-mountain-tee.svg`. Before launch, replace it or add your exported Printify mockups, then update the image paths in `index.html` and `keep-climbing-mountain-tee.html`.
 
 ---
