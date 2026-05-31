@@ -127,9 +127,13 @@ body a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
   font-size: .78rem;
   font-weight: 900;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .nova-cart-count {
@@ -161,6 +165,18 @@ body a {
 
 .nova-mobile-nav {
   display: none;
+}
+
+.nova-mobile-nav button {
+  width: fit-content;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font: inherit;
+  font-weight: 900;
+  text-transform: uppercase;
+  cursor: pointer;
 }
 
 .nova-hero {
@@ -253,6 +269,10 @@ body a {
   color: var(--nova-white);
 }
 
+.nova-button--wide {
+  width: 100%;
+}
+
 .nova-drop,
 .nova-rich-text {
   padding: 96px 0;
@@ -332,6 +352,162 @@ body a {
 
 .nova-price {
   font-weight: 900;
+}
+
+.nova-quick-add {
+  width: fit-content;
+  border: 1px solid currentColor;
+  padding: 10px 14px;
+  font-size: .72rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.nova-variant-picker {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.nova-variant-picker button {
+  min-height: 44px;
+  border: 1px solid var(--nova-line);
+  background: var(--nova-white);
+  color: var(--nova-ink);
+  font-weight: 950;
+  cursor: pointer;
+}
+
+.nova-variant-picker button.is-selected {
+  background: var(--nova-black);
+  color: var(--nova-white);
+  border-color: var(--nova-black);
+}
+
+.nova-cart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: none;
+  background: rgba(0, 0, 0, .48);
+}
+
+.nova-cart-overlay[data-open] {
+  display: block;
+}
+
+.nova-cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 80;
+  width: min(440px, 100%);
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  transform: translateX(100%);
+  transition: transform .2s ease;
+  background: var(--nova-white);
+  color: var(--nova-ink);
+  box-shadow: -24px 0 50px rgba(0, 0, 0, .18);
+}
+
+.nova-cart-drawer[data-open] {
+  transform: translateX(0);
+}
+
+.nova-cart-drawer__header,
+.nova-cart-drawer__footer {
+  padding: 20px;
+  border-bottom: 1px solid var(--nova-line);
+}
+
+.nova-cart-drawer__footer {
+  border-top: 1px solid var(--nova-line);
+  border-bottom: 0;
+}
+
+.nova-cart-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.nova-cart-drawer__header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.nova-icon-button {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--nova-black);
+  background: transparent;
+  color: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.nova-cart-items {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  overflow: auto;
+  padding: 20px;
+}
+
+.nova-cart-item {
+  display: grid;
+  grid-template-columns: 82px 1fr;
+  gap: 14px;
+}
+
+.nova-cart-item img {
+  width: 82px;
+  height: 102px;
+  object-fit: contain;
+  background: var(--nova-mist);
+}
+
+.nova-cart-item h3 {
+  margin: 0 0 6px;
+  font-size: .95rem;
+}
+
+.nova-cart-item p {
+  margin: 0 0 10px;
+  color: var(--nova-steel);
+  font-size: .86rem;
+}
+
+.nova-cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nova-cart-controls button {
+  min-width: 32px;
+  min-height: 32px;
+  border: 1px solid var(--nova-line);
+  background: transparent;
+  cursor: pointer;
+}
+
+.nova-cart-total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.nova-empty-cart {
+  margin: 0;
+  color: var(--nova-steel);
+  line-height: 1.5;
 }
 
 .nova-banner {

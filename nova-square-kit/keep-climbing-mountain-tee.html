@@ -22,7 +22,7 @@
           <a href="./index.html#story">About</a>
         </nav>
         <div class="nova-header-actions">
-          <a class="nova-cart-link" href="#buy">Select Size</a>
+          <button class="nova-cart-link" type="button" data-cart-open>Cart <span class="nova-cart-count" data-cart-count>0</span></button>
           <button class="nova-menu-toggle" type="button" aria-expanded="false" aria-controls="NovaMobileNav" data-nova-menu-toggle>
             <span></span>
             <span></span>
@@ -35,6 +35,7 @@
         <a href="./defind.html">Defind.</a>
         <a href="./index.html#story">About</a>
         <a href="#buy">Select Size</a>
+        <button type="button" data-cart-open>Cart</button>
       </nav>
     </header>
 
@@ -55,8 +56,19 @@
             </div>
 
             <div class="nova-product-actions" id="buy">
-              <a class="nova-button nova-button--dark" href="https://www.squarespace.com/" target="_blank" rel="noreferrer">Buy on Store</a>
-              <p>Replace this button link with the live Squarespace or Printify product URL after publishing.</p>
+              <div class="nova-variant-picker" aria-label="Choose size">
+                <button class="is-selected" type="button" data-size-option data-size="XS" data-price="24.99">XS</button>
+                <button type="button" data-size-option data-size="S" data-price="28.99">S</button>
+                <button type="button" data-size-option data-size="M" data-price="28.99">M</button>
+                <button type="button" data-size-option data-size="L" data-price="28.99">L</button>
+                <button type="button" data-size-option data-size="XL" data-price="28.99">XL</button>
+                <button type="button" data-size-option data-size="2XL" data-price="31.99">2XL</button>
+                <button type="button" data-size-option data-size="3XL" data-price="31.99">3XL</button>
+                <button type="button" data-size-option data-size="4XL" data-price="32.99">4XL</button>
+              </div>
+              <button class="nova-button nova-button--dark" type="button" data-add-to-cart data-product-id="keep-climbing-tee" data-product-name="Keep Climbing Mountain Graphic Tee" data-product-price="24.99" data-product-image="./assets/keep-climbing-mountain-tee.svg" data-product-size="XS">Add to Cart</button>
+              <a class="nova-button" href="https://shop-nova-clothing.square.site/" target="_blank" rel="noreferrer">Buy on Square</a>
+              <p>Cart checkout opens your live Square store. Replace this link with the exact product checkout link when you have it.</p>
             </div>
 
             <section class="nova-product-panel">

@@ -77,6 +77,15 @@ Collection pages have also been added:
 - `nova-trekking-collection.html`
 - `defind.html`
 
+Storefront behavior has been added to make the static site work more like the Square store:
+
+- Cart drawer
+- Cart item count
+- Quick add from product grids
+- Product size picker
+- Quantity and remove controls
+- Checkout handoff to `https://shop-nova-clothing.square.site/`
+
 The current product image is a temporary SVG mockup at `assets/keep-climbing-mountain-tee.svg`. Before launch, replace it or add your exported Printify mockups, then update the image paths in `index.html` and `keep-climbing-mountain-tee.html`.
 
 ---
