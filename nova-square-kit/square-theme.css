@@ -305,12 +305,23 @@ body a {
   transition: transform .22s ease;
 }
 
+.nova-product-card__media img[src$=".svg"] {
+  object-fit: contain;
+  padding: 22px;
+}
+
+.nova-product-card__media--placeholder {
+  background: var(--nova-black);
+}
+
 .nova-product-card:hover .nova-product-card__media img {
   transform: scale(1.025);
 }
 
 .nova-product-card__fallback {
-  width: 28%;
+  width: 30% !important;
+  height: auto !important;
+  object-fit: contain !important;
   filter: invert(1);
 }
 
