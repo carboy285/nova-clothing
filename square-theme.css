@@ -218,7 +218,7 @@ body a {
 .nova-banner__image {
   position: absolute;
   inset: 0;
-  background-image: var(--nova-hero-image);
+  background-image: url('./assets/nova-mountain-hero.png');
   background-size: cover;
   background-position: center;
   filter: grayscale(1);
@@ -756,7 +756,7 @@ body a {
 .nova-collection-hero__image {
   position: absolute;
   inset: 0;
-  background-image: var(--nova-hero-image);
+  background-image: url('./assets/nova-mountain-hero.png');
   background-size: cover;
   background-position: center;
   filter: grayscale(1);
