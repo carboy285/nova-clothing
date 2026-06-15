@@ -7,26 +7,26 @@ Static NOVA Clothing storefront built from the original theme assets. This proje
 ### Easiest: Drag And Drop
 
 1. Go to [Netlify Drop](https://app.netlify.com/drop).
-2. Drag the `netlify-drop-ready` folder into Netlify if you are using the prepared upload folder, or drag this whole project folder.
+2. Drag this whole project folder into Netlify, but do not include `node_modules/` or `dist/`.
 3. Netlify will publish the site and give you a live link.
 
 ### Best: GitHub To Netlify
 
 1. Create a new GitHub repository.
-2. Upload everything in this folder to the repository.
+2. Upload everything in this folder to the repository except `node_modules/` and `dist/`.
 3. In Netlify, choose **Add new site**.
 4. Choose **Import an existing project**.
 5. Connect GitHub and select your NOVA repository.
 6. Netlify should read `netlify.toml` automatically.
 7. Confirm:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
+   - Build command: blank
+   - Publish directory: `.`
 8. Click **Deploy site**.
 
 ## Deploy On Vercel
 
 1. Create a new GitHub repository.
-2. Upload everything in this folder to the repository.
+2. Upload everything in this folder to the repository except `node_modules/` and `dist/`.
 3. In Vercel, choose **Add New Project**.
 4. Import the GitHub repository.
 5. Leave the framework preset as **Other** or **Static**.
@@ -47,9 +47,9 @@ Then open the local URL shown in the terminal.
 
 - `index.html` is the live homepage.
 - `square-theme.css` is the NOVA styling.
-- `square-theme.js` powers the mobile menu.
-- `assets/` contains the logo, mark, and mountain hero image.
-- `netlify.toml` tells Netlify how to build and publish the site.
+- `square-theme.js` powers the mobile menu, cart, and image fallbacks.
+- `assets/` contains the logo, mountain hero image, and product photos.
+- `netlify.toml` tells Netlify to publish the source files directly.
 - `vercel.json` tells Vercel this is a static site.
 
 ## Optional Square Files
@@ -70,7 +70,9 @@ These files are still included in case you also want to reuse parts of the desig
 
 ## Notes
 
-The `Keep Climbing Mountain Graphic Tee` product has been added to the homepage and has its own product page at `keep-climbing-mountain-tee.html`.
+The `Keep Climbing Mountain Graphic Tee` product has its own product page at `keep-climbing-mountain-tee.html`.
+
+The `Mountains Wait We Don't T-Shirt` product has its own product page at `mountains-wait-we-dont-tee.html`.
 
 Collection pages have also been added:
 
@@ -86,7 +88,7 @@ Storefront behavior has been added to make the static site work more like the Sq
 - Quantity and remove controls
 - Checkout handoff to `https://shop-nova-clothing.square.site/`
 
-The current product image is a temporary SVG mockup at `assets/keep-climbing-mountain-tee.svg`. Before launch, replace it or add your exported Printify mockups, then update the image paths in `index.html` and `keep-climbing-mountain-tee.html`.
+Product photos are stored in `assets/`. Keep that folder uploaded with the HTML, CSS, and JS files so the storefront, product pages, and cart can display images.
 
 ---
 
