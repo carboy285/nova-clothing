@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const syncSelectedProductPrice = (sizeButton) => {
       if (!sizeButton) return;
 
-      const addButton = document.querySelector('[data-add-to-cart][data-product-id="keep-climbing-tee"]');
+      const addButton = document.querySelector('.nova-product-actions [data-add-to-cart]');
       const priceDisplay = document.querySelector('[data-product-price-display]');
       const nextPrice = Number(sizeButton.dataset.price || 0);
 
