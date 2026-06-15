@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Keep Climbing Mountain Graphic Tee</title>
+  <desc id="desc">Black NOVA shirt mockup with white mountain artwork and Keep Climbing text.</desc>
+  <rect width="1200" height="1200" fill="#f3f3f3"/>
+  <path d="M365 166h470l78 94 150 80-78 218-118-45v458c0 42-34 76-76 76H409c-42 0-76-34-76-76V513l-118 45-78-218 150-80 78-94Z" fill="#080808"/>
+  <path d="M475 188c24 44 66 66 125 66s101-22 125-66" fill="none" stroke="#1f1f1f" stroke-width="34" stroke-linecap="round"/>
+  <path d="M288 268l76 140M912 268l-76 140" fill="none" stroke="#111" stroke-width="28" stroke-linecap="round"/>
+  <g fill="#f8f8f8">
+    <path d="M336 623l112-168 36 58 45-75 64 104 51-139 111 198 44-61 70 100-105-64-31 45-83-139-46 119-70-109-40 69-40-51-118 113Z"/>
+    <path d="M435 664h330v22H435z"/>
+  </g>
+  <text x="600" y="762" fill="#f8f8f8" font-family="Arial, Helvetica, sans-serif" font-size="72" font-weight="900" text-anchor="middle" letter-spacing="1">KEEP CLIMBING</text>
+  <text x="600" y="818" fill="#f8f8f8" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" text-anchor="middle" letter-spacing="12">BUILT FOR THE TRAIL</text>
+  <text x="600" y="1006" fill="#303030" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="900" text-anchor="middle">NOVA CLOTHING</text>
+</svg>
