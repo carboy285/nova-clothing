@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
   const cartTriggers = document.querySelectorAll('[data-cart-open], [data-add-to-cart], [data-size-option]');
+  const productImageFallbacks = {
+    'keep-climbing-tee': new URL('./assets/keep-climbing-mountain-tee-front.jpg', import.meta.url).href,
+    'mountains-wait-tee': new URL('./assets/mountains-wait-tee-front-v3.jpg', import.meta.url).href,
+  };
+  const logoImageFallback = new URL('./assets/nova-logo-full.png', import.meta.url).href;
+  const heroImageFallback = new URL('./assets/nova-mountain-hero.png', import.meta.url).href;
 
   document.querySelectorAll('[data-nova-menu-toggle]').forEach((toggle) => {
     const nav = document.querySelector(toggle.getAttribute('aria-controls') ? `#${toggle.getAttribute('aria-controls')}` : '[data-nova-mobile-nav]');
@@ -111,12 +117,78 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem(cartStorageKey, JSON.stringify(cart));
   };
 
-  const resolveProductImage = (button) => (
-    button.closest('.nova-product-card')?.querySelector('img')?.getAttribute('src')
-    || document.querySelector('.nova-product-gallery__featured')?.getAttribute('src')
-    || button.dataset.productImage
-    || ''
-  );
+  const getProductFallbackImage = (productId) => productImageFallbacks[productId] || '';
+
+  const shouldUseProductFallback = (item) => {
+    if (!item.image) return true;
+    if (!item.id || !getProductFallbackImage(item.id)) return false;
+
+    const sourcePath = item.image.split('?')[0];
+    return (
+      sourcePath.endsWith('/assets/keep-climbing-mountain-tee-front.jpg')
+      || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
+      || sourcePath.endsWith('/assets/mountains-wait-tee-front-v2.jpg')
+      || sourcePath.endsWith('/assets/mountains-wait-tee-front-v3.jpg')
+    );
+  };
+
+  const resolveImageSource = (image) => {
+    if (!image) return '';
+    return image.currentSrc || image.src || image.getAttribute('src') || '';
+  };
+
+  const resolveProductImage = (button) => {
+    const productId = button.dataset.productId;
+    return (
+      resolveImageSource(button.closest('.nova-product-card')?.querySelector('img'))
+      || resolveImageSource(document.querySelector('.nova-product-gallery__featured'))
+      || button.dataset.productImage
+      || getProductFallbackImage(productId)
+    );
+  };
+
+  const repairBrokenCartImages = () => {
+    cartDrawer?.querySelectorAll('[data-cart-item-image]').forEach((image) => {
+      image.addEventListener('error', () => {
+        const fallback = image.dataset.fallbackImage;
+        if (fallback && image.src !== fallback) {
+          image.src = fallback;
+        }
+      }, { once: true });
+    });
+  };
+
+  const getImageFallback = (image) => {
+    const marker = `${image.alt || ''} ${image.getAttribute('src') || ''}`.toLowerCase();
+
+    if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
+    if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
+    if (marker.includes('nova clothing') || marker.includes('nova-logo-full')) return logoImageFallback;
+
+    return '';
+  };
+
+  const applyImageFallback = (image) => {
+    const fallback = getImageFallback(image);
+    if (!fallback || image.dataset.novaFallbackApplied === 'true') return;
+
+    image.dataset.novaFallbackApplied = 'true';
+    image.src = fallback;
+  };
+
+  const initImageFallbacks = () => {
+    document.querySelectorAll('img').forEach((image) => {
+      image.addEventListener('error', () => applyImageFallback(image), { once: true });
+
+      if (image.complete && image.naturalWidth === 0) {
+        applyImageFallback(image);
+      }
+    });
+
+    document.querySelectorAll('.nova-hero__image, .nova-banner__image, .nova-collection-hero__image').forEach((element) => {
+      element.style.backgroundImage = `url("${heroImageFallback}")`;
+    });
+  };
 
   const openCart = () => {
     if (!cartOverlay || !cartDrawer) return;
@@ -149,9 +221,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    itemsWrapper.innerHTML = cart.map((item) => `
+    const normalizedCart = cart.map((item) => ({
+      ...item,
+      image: shouldUseProductFallback(item) ? getProductFallbackImage(item.id) : item.image,
+    }));
+
+    if (JSON.stringify(normalizedCart) !== JSON.stringify(cart)) {
+      saveCart(normalizedCart);
+    }
+
+    itemsWrapper.innerHTML = normalizedCart.map((item) => `
       <article class="nova-cart-item">
-        <img src="${item.image}" alt="">
+        <img src="${item.image}" alt="" data-cart-item-image data-fallback-image="${getProductFallbackImage(item.id)}">
         <div>
           <h3>${item.name}</h3>
           <p>Size ${item.size} / ${money.format(item.price)}</p>
@@ -164,6 +245,7 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </article>
     `).join('');
+    repairBrokenCartImages();
   };
 
   const initCart = () => {
@@ -277,6 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   initCart();
+  initImageFallbacks();
   initRevealAnimations();
   initParallax();
 });
