@@ -1,3 +1,5 @@
+document.documentElement.classList.add('js-enhanced');
+
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
   const checkoutUrl = 'https://shop-nova-clothing.square.site/';
@@ -42,6 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
       revealTargets.forEach((element) => element.classList.add('is-visible'));
       return;
     }
+
+    revealTargets.forEach((element) => element.classList.remove('is-visible'));
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -106,6 +110,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveCart = (cart) => {
     localStorage.setItem(cartStorageKey, JSON.stringify(cart));
   };
+
+  const resolveProductImage = (button) => (
+    button.closest('.nova-product-card')?.querySelector('img')?.getAttribute('src')
+    || document.querySelector('.nova-product-gallery__featured')?.getAttribute('src')
+    || button.dataset.productImage
+    || ''
+  );
 
   const openCart = () => {
     if (!cartOverlay || !cartDrawer) return;
@@ -224,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
           name: button.dataset.productName,
           size: button.dataset.productSize || 'M',
           price: Number(button.dataset.productPrice || 0),
-          image: button.dataset.productImage,
+          image: resolveProductImage(button),
         };
         const key = `${product.id}-${product.size}`;
         const cart = getCart();
