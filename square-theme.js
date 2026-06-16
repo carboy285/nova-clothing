@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartTriggers = document.querySelectorAll('[data-cart-open], [data-add-to-cart], [data-size-option]');
   const productImageFallbacks = {
     'keep-climbing-tee': new URL('./assets/keep-climbing-mountain-tee-front.jpg', import.meta.url).href,
-    'mountains-wait-tee': new URL('./assets/mountains-wait-tee-front-v3.jpg', import.meta.url).href,
+    'mountains-wait-tee': new URL('./assets/mountains-wait-tee-front.jpg', import.meta.url).href,
   };
   const logoImageFallback = new URL('./assets/nova-logo-full.png', import.meta.url).href;
   const heroImageFallback = new URL('./assets/nova-mountain-hero.png', import.meta.url).href;

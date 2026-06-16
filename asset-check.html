@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NOVA Asset Check</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 32px;
+      color: #111;
+      background: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    p {
+      max-width: 720px;
+      line-height: 1.5;
+    }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .asset-card {
+      border: 1px solid #ddd;
+      padding: 14px;
+    }
+
+    .asset-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      background: #f3f3f3;
+    }
+
+    .asset-card strong,
+    .asset-card span {
+      display: block;
+      margin-top: 10px;
+      overflow-wrap: anywhere;
+    }
+
+    .is-ok {
+      color: #087a2d;
+    }
+
+    .is-missing {
+      color: #b00020;
+    }
+  </style>
+</head>
+<body>
+  <h1>NOVA Asset Check</h1>
+  <p>If any card says missing on the live website, the `assets` folder was not uploaded correctly or the filename changed.</p>
+
+  <div class="asset-grid" id="AssetGrid"></div>
+
+  <script>
+    const assets = [
+      './assets/nova-logo-full.png',
+      './assets/nova-mountain-hero.png',
+      './assets/keep-climbing-mountain-tee-front.jpg',
+      './assets/keep-climbing-mountain-tee-back.jpg',
+      './assets/keep-climbing-mountain-tee-folded.jpg',
+      './assets/keep-climbing-mountain-tee-styled.jpg',
+      './assets/mountains-wait-tee-front.jpg',
+      './assets/mountains-wait-tee-back.jpg',
+      './assets/mountains-wait-tee-folded.jpg',
+      './assets/mountains-wait-tee-styled.jpg',
+    ];
+
+    const grid = document.querySelector('#AssetGrid');
+
+    assets.forEach((src) => {
+      const card = document.createElement('article');
+      card.className = 'asset-card';
+
+      const image = document.createElement('img');
+      image.src = src;
+      image.alt = src;
+
+      const label = document.createElement('strong');
+      label.textContent = src;
+
+      const status = document.createElement('span');
+      status.textContent = 'Checking...';
+
+      image.addEventListener('load', () => {
+        status.className = 'is-ok';
+        status.textContent = `Loaded: ${image.naturalWidth} x ${image.naturalHeight}`;
+      });
+
+      image.addEventListener('error', () => {
+        status.className = 'is-missing';
+        status.textContent = 'Missing on this server';
+      });
+
+      card.append(image, label, status);
+      grid.append(card);
+    });
+  </script>
+</body>
+</html>
