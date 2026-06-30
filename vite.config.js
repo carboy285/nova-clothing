@@ -12,6 +12,7 @@ export default defineConfig({
         collection: resolve(__dirname, 'nova-trekking-collection.html'),
         keepClimbingProduct: resolve(__dirname, 'keep-climbing-mountain-tee.html'),
         mountainsWaitProduct: resolve(__dirname, 'mountains-wait-we-dont-tee.html'),
+        novaResetProduct: resolve(__dirname, 'nova-reset-tee.html'),
         defined: resolve(__dirname, 'defined.html'),
         focusTee: resolve(__dirname, 'focus-tee.html'),
         growthTee: resolve(__dirname, 'growth-tee.html'),

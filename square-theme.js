@@ -1,5 +1,6 @@
 import keepClimbingFallbackImage from './assets/keep-climbing-mountain-tee-front.jpg?url';
 import mountainsWaitFallbackImage from './assets/mountains-wait-tee-front.jpg?url';
+import novaResetFallbackImage from './assets/nova-reset-tee-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,6 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
       name: 'Mountains Wait We Don\'t T-Shirt',
       url: './mountains-wait-we-dont-tee.html',
       squareUrl: `${squareStoreUrl}product/mountains-wait-we-don-t-t-shirt-adventure-hiking-graphic-tee/65BMT2BAZGI4Y3SJ73MTDY2C`,
+    },
+    'nova-reset-tee': {
+      name: 'NOVA Reset Tee',
+      url: './nova-reset-tee.html',
+      squareUrl: `${squareStoreUrl}shop/nova-treking-collection/C4JR5KKWC5PKC6NJCYPYW53E`,
     },
     'focus-tee': {
       name: 'Focus Tee',
@@ -46,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const productImageFallbacks = {
     'keep-climbing-tee': keepClimbingFallbackImage,
     'mountains-wait-tee': mountainsWaitFallbackImage,
+    'nova-reset-tee': novaResetFallbackImage,
   };
 
   const logoImageFallback = logoFallbackImage;
@@ -178,6 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return (
       sourcePath.endsWith('/assets/keep-climbing-mountain-tee-front.jpg')
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
+      || sourcePath.endsWith('/assets/nova-reset-tee-front.jpg')
     );
   };
 
@@ -213,6 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
     if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
+    if (marker.includes('nova reset')) return productImageFallbacks['nova-reset-tee'];
     if (marker.includes('nova clothing') || marker.includes('nova-logo-full')) return logoImageFallback;
 
     return '';
@@ -357,6 +366,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (addButton) {
         addButton.dataset.productSize = sizeButton.dataset.size;
         addButton.dataset.productPrice = sizeButton.dataset.price;
+        if (sizeButton.dataset.sku) {
+          addButton.dataset.productSku = sizeButton.dataset.sku;
+        }
       }
 
       if (priceDisplay && nextPrice) {
@@ -413,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
           id: button.dataset.productId,
           name: button.dataset.productName,
           size: button.dataset.productSize || 'M',
+          sku: button.dataset.productSku || '',
           price: Number(button.dataset.productPrice || 0),
           image: resolveProductImage(button),
         };
