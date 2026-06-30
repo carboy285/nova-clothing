@@ -1,3 +1,7 @@
+import keepClimbingFallbackImage from './assets/keep-climbing-mountain-tee-front.jpg?url';
+import mountainsWaitFallbackImage from './assets/mountains-wait-tee-front.jpg?url';
+import logoFallbackImage from './assets/nova-logo-full.png?url';
+
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
   const squareStoreUrl = 'https://shop-nova-clothing.square.site/';
@@ -40,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchProducts = Object.values(productCatalog);
 
   const productImageFallbacks = {
-    'keep-climbing-tee': new URL('./assets/keep-climbing-mountain-tee-front.jpg', import.meta.url).href,
-    'mountains-wait-tee': new URL('./assets/mountains-wait-tee-front.jpg', import.meta.url).href,
+    'keep-climbing-tee': keepClimbingFallbackImage,
+    'mountains-wait-tee': mountainsWaitFallbackImage,
   };
 
-  const logoImageFallback = new URL('./assets/nova-logo-full.png', import.meta.url).href;
+  const logoImageFallback = logoFallbackImage;
 
   const escapeHTML = (str) => {
     if (typeof str !== 'string') return '';
