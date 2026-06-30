@@ -1,5 +1,9 @@
 {
-  "buildCommand": "echo Static site - no build",
-  "outputDirectory": ".",
-  "trailingSlash": false
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/defind.html", "destination": "/defined.html", "permanent": true },
+    { "source": "/defind", "destination": "/defined.html", "permanent": true }
+  ]
 }

@@ -1,2 +1,5 @@
 node_modules/
 dist/
+
+# Dev / Square-specific files (kept in dev/ for local reference only)
+dev/

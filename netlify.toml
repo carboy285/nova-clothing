@@ -1,3 +1,15 @@
 [build]
-  command = "echo Static site - no build"
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/defind.html"
+  to = "/defined.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/defind"
+  to = "/defined.html"
+  status = 301
+  force = true

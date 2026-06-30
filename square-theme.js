@@ -1,17 +1,67 @@
-document.documentElement.classList.add('js-enhanced');
-
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
-  const checkoutUrl = 'https://shop-nova-clothing.square.site/';
+  const squareStoreUrl = 'https://shop-nova-clothing.square.site/';
   const money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const cartTriggers = document.querySelectorAll('[data-cart-open], [data-add-to-cart], [data-size-option]');
+
+  const productCatalog = {
+    'keep-climbing-tee': {
+      name: 'Keep Climbing Mountain graphic Tee',
+      url: './keep-climbing-mountain-tee.html',
+      squareUrl: `${squareStoreUrl}shop/nova-treking-collection/C4JR5KKWC5PKC6NJCYPYW53E`,
+    },
+    'mountains-wait-tee': {
+      name: 'Mountains Wait We Don\'t T-Shirt',
+      url: './mountains-wait-we-dont-tee.html',
+      squareUrl: `${squareStoreUrl}product/mountains-wait-we-don-t-t-shirt-adventure-hiking-graphic-tee/65BMT2BAZGI4Y3SJ73MTDY2C`,
+    },
+    'focus-tee': {
+      name: 'Focus Tee',
+      url: './focus-tee.html',
+      squareUrl: `${squareStoreUrl}product/courage-definition-tee-minimal-inspirational-graphic-t-shirt/B6TXU3GE3BZIQTN5HKAH7ZMB`,
+    },
+    'growth-tee': {
+      name: 'Growth Tee',
+      url: './growth-tee.html',
+      squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
+    },
+    'discipline-crew': {
+      name: 'Discipline Crew',
+      url: './discipline-crew.html',
+      squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
+    },
+    'resilience-hoodie': {
+      name: 'Resilience Hoodie',
+      url: './resilience-hoodie.html',
+      squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
+    },
+  };
+
+  const searchProducts = Object.values(productCatalog);
+
   const productImageFallbacks = {
     'keep-climbing-tee': new URL('./assets/keep-climbing-mountain-tee-front.jpg', import.meta.url).href,
     'mountains-wait-tee': new URL('./assets/mountains-wait-tee-front.jpg', import.meta.url).href,
   };
+
   const logoImageFallback = new URL('./assets/nova-logo-full.png', import.meta.url).href;
-  const heroImageFallback = new URL('./assets/nova-mountain-hero.png', import.meta.url).href;
+
+  const escapeHTML = (str) => {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  };
+
+  let cartOverlay = null;
+  let cartDrawer = null;
+
+  const getProductSquareUrl = (productId) => (
+    productCatalog[productId]?.squareUrl || squareStoreUrl
+  );
 
   document.querySelectorAll('[data-nova-menu-toggle]').forEach((toggle) => {
     const nav = document.querySelector(toggle.getAttribute('aria-controls') ? `#${toggle.getAttribute('aria-controls')}` : '[data-nova-mobile-nav]');
@@ -23,9 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
       nav.toggleAttribute('data-open', !isOpen);
     });
   });
-
-  let cartOverlay = null;
-  let cartDrawer = null;
 
   const applyRevealDelays = () => {
     document.querySelectorAll('[data-reveal-group]').forEach((group) => {
@@ -127,8 +174,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return (
       sourcePath.endsWith('/assets/keep-climbing-mountain-tee-front.jpg')
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
-      || sourcePath.endsWith('/assets/mountains-wait-tee-front-v2.jpg')
-      || sourcePath.endsWith('/assets/mountains-wait-tee-front-v3.jpg')
     );
   };
 
@@ -142,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return (
       resolveImageSource(button.closest('.nova-product-card')?.querySelector('img'))
       || resolveImageSource(document.querySelector('.nova-product-gallery__featured'))
+      || resolveImageSource(document.querySelector('.nova-word-card--large'))
       || button.dataset.productImage
       || getProductFallbackImage(productId)
     );
@@ -184,10 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
         applyImageFallback(image);
       }
     });
-
-    document.querySelectorAll('.nova-hero__image, .nova-banner__image, .nova-collection-hero__image').forEach((element) => {
-      element.style.backgroundImage = `url("${heroImageFallback}")`;
-    });
   };
 
   const openCart = () => {
@@ -202,6 +244,54 @@ document.addEventListener('DOMContentLoaded', () => {
     cartDrawer.removeAttribute('data-open');
   };
 
+  const updateCheckoutButton = (cart) => {
+    const checkoutButton = cartDrawer?.querySelector('[data-cart-checkout]');
+    const checkoutNote = cartDrawer?.querySelector('[data-cart-checkout-note]');
+    if (!checkoutButton) return;
+
+    if (!cart.length) {
+      checkoutButton.setAttribute('disabled', '');
+      checkoutButton.textContent = 'Continue to Square Store';
+      if (checkoutNote) checkoutNote.hidden = true;
+      return;
+    }
+
+    checkoutButton.removeAttribute('disabled');
+
+    if (cart.length === 1) {
+      checkoutButton.textContent = 'Checkout on Square';
+      if (checkoutNote) {
+        checkoutNote.hidden = false;
+        checkoutNote.textContent = 'You will finish size and payment on Square.';
+      }
+      return;
+    }
+
+    checkoutButton.textContent = 'Open Square Store';
+    if (checkoutNote) {
+      checkoutNote.hidden = false;
+      checkoutNote.textContent = 'Square checkout opens each item below. Select your size on Square to complete purchase.';
+    }
+  };
+
+  const handleCheckout = () => {
+    const cart = getCart();
+    if (!cart.length) return;
+
+    if (cart.length === 1) {
+      window.open(getProductSquareUrl(cart[0].id), '_blank', 'noopener,noreferrer');
+      return;
+    }
+
+    const opened = new Set();
+    cart.forEach((item) => {
+      const url = getProductSquareUrl(item.id);
+      if (opened.has(url)) return;
+      opened.add(url);
+      window.open(url, '_blank', 'noopener,noreferrer');
+    });
+  };
+
   const renderCart = () => {
     if (!cartDrawer) return;
 
@@ -212,9 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-cart-count]').forEach((count) => {
       count.textContent = String(itemCount);
+      count.toggleAttribute('data-empty', itemCount === 0);
     });
 
     cartDrawer.querySelector('[data-cart-total]').textContent = money.format(total);
+    updateCheckoutButton(cart);
 
     if (!cart.length) {
       itemsWrapper.innerHTML = '<p class="nova-empty-cart">Your cart is empty. Add a product to start your NOVA order.</p>';
@@ -224,24 +316,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const normalizedCart = cart.map((item) => ({
       ...item,
       image: shouldUseProductFallback(item) ? getProductFallbackImage(item.id) : item.image,
+      squareUrl: getProductSquareUrl(item.id),
     }));
 
-    if (JSON.stringify(normalizedCart) !== JSON.stringify(cart)) {
-      saveCart(normalizedCart);
+    if (JSON.stringify(normalizedCart.map(({ squareUrl, ...item }) => item)) !== JSON.stringify(cart)) {
+      saveCart(normalizedCart.map(({ squareUrl, ...item }) => item));
     }
 
     itemsWrapper.innerHTML = normalizedCart.map((item) => `
       <article class="nova-cart-item">
-        <img src="${item.image}" alt="" data-cart-item-image data-fallback-image="${getProductFallbackImage(item.id)}">
+        ${item.image ? `<img src="${escapeHTML(item.image)}" alt="" data-cart-item-image data-fallback-image="${escapeHTML(getProductFallbackImage(item.id))}">` : '<div class="nova-cart-item__placeholder" aria-hidden="true"></div>'}
         <div>
-          <h3>${item.name}</h3>
-          <p>Size ${item.size} / ${money.format(item.price)}</p>
+          <h3>${escapeHTML(item.name)}</h3>
+          <p>Size ${escapeHTML(item.size)} / ${money.format(item.price)}</p>
           <div class="nova-cart-controls">
-            <button type="button" data-cart-qty="${item.key}" data-cart-delta="-1">-</button>
+            <button type="button" data-cart-qty="${escapeHTML(item.key)}" data-cart-delta="-1">-</button>
             <strong>${item.quantity}</strong>
-            <button type="button" data-cart-qty="${item.key}" data-cart-delta="1">+</button>
-            <button type="button" data-cart-remove="${item.key}">Remove</button>
+            <button type="button" data-cart-qty="${escapeHTML(item.key)}" data-cart-delta="1">+</button>
+            <button type="button" data-cart-remove="${escapeHTML(item.key)}">Remove</button>
           </div>
+          <a class="nova-cart-item__square" href="${escapeHTML(item.squareUrl)}" target="_blank" rel="noreferrer">View on Square</a>
         </div>
       </article>
     `).join('');
@@ -249,8 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const initCart = () => {
-    if (!cartTriggers.length) return;
-
     const syncSelectedProductPrice = (sizeButton) => {
       if (!sizeButton) return;
 
@@ -283,7 +375,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="nova-cart-items" data-cart-items></div>
       <div class="nova-cart-drawer__footer">
         <div class="nova-cart-total"><span>Subtotal</span><span data-cart-total>$0.00</span></div>
-        <a class="nova-button nova-button--dark nova-button--wide" href="${checkoutUrl}" target="_blank" rel="noreferrer">Checkout on Square</a>
+        <p class="nova-cart-checkout-note" data-cart-checkout-note hidden></p>
+        <button class="nova-button nova-button--dark nova-button--wide" type="button" data-cart-checkout disabled>Continue to Square Store</button>
       </div>
     `;
 
@@ -293,9 +386,9 @@ document.addEventListener('DOMContentLoaded', () => {
       button.addEventListener('click', openCart);
     });
 
-    document.querySelectorAll('[data-cart-close]').forEach((button) => {
-      button.addEventListener('click', closeCart);
-    });
+    cartOverlay.addEventListener('click', closeCart);
+    cartDrawer.querySelector('[data-cart-close]').addEventListener('click', closeCart);
+    cartDrawer.querySelector('[data-cart-checkout]').addEventListener('click', handleCheckout);
 
     document.querySelectorAll('[data-size-option]').forEach((button) => {
       button.addEventListener('click', () => {
@@ -358,7 +451,79 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
   };
 
+  const initSearch = () => {
+    const searchOverlay = document.createElement('div');
+    searchOverlay.className = 'nova-search-overlay';
+
+    const searchModal = document.createElement('div');
+    searchModal.className = 'nova-search-modal';
+
+    const searchInput = document.createElement('input');
+    searchInput.type = 'text';
+    searchInput.className = 'nova-search-input';
+    searchInput.placeholder = 'Search products\u2026';
+    searchInput.setAttribute('aria-label', 'Search products');
+
+    const searchResultsList = document.createElement('ul');
+    searchResultsList.className = 'nova-search-results';
+
+    searchModal.append(searchInput, searchResultsList);
+    searchOverlay.appendChild(searchModal);
+    document.body.appendChild(searchOverlay);
+
+    const renderSearchResults = (query) => {
+      const q = (query || '').trim().toLowerCase();
+      const matches = q
+        ? searchProducts.filter((product) => product.name.toLowerCase().includes(q))
+        : searchProducts;
+
+      if (!matches.length) {
+        searchResultsList.innerHTML = '<li class="nova-search-empty">No products found.</li>';
+        return;
+      }
+
+      searchResultsList.innerHTML = matches.map((product) =>
+        `<li><a href="${escapeHTML(product.url)}">${escapeHTML(product.name)}</a></li>`
+      ).join('');
+    };
+
+    const openSearch = () => {
+      searchOverlay.setAttribute('data-open', '');
+      searchInput.value = '';
+      renderSearchResults('');
+      requestAnimationFrame(() => searchInput.focus());
+    };
+
+    const closeSearch = () => {
+      searchOverlay.removeAttribute('data-open');
+    };
+
+    searchInput.addEventListener('input', () => renderSearchResults(searchInput.value));
+
+    searchOverlay.addEventListener('click', (event) => {
+      if (event.target === searchOverlay) closeSearch();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && searchOverlay.hasAttribute('data-open')) closeSearch();
+    });
+
+    document.querySelectorAll('.nova-story-search, [data-search-open]').forEach((button) => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
+        openSearch();
+      });
+    });
+  };
+
+  document.querySelectorAll('[data-square-buy]').forEach((link) => {
+    const productId = link.dataset.squareBuy;
+    const squareUrl = getProductSquareUrl(productId);
+    if (squareUrl) link.href = squareUrl;
+  });
+
   initCart();
+  initSearch();
   initImageFallbacks();
   initRevealAnimations();
   initParallax();

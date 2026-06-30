@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NOVA Clothing</title>
+  <meta name="description" content="NOVA Clothing — clean athletic streetwear inspired by movement, discipline, and the outdoors. Start Fresh. Be You.">
   <script>document.documentElement.classList.add('js-enhanced');</script>
   <link rel="stylesheet" href="./square-theme.css">
 </head>
@@ -12,12 +13,13 @@
     <header class="nova-site-header">
       <div class="nova-site-header__inner">
         <a class="nova-brand" href="./index.html">
+          <img class="nova-brand__mark" src="./assets/nova-mark.png" alt="">
           <span class="nova-brand__name">Nova Clothing</span>
         </a>
         <nav class="nova-nav" aria-label="Primary navigation">
-          <a href="./index.html">Shop All</a>
+          <a href="./shop-all.html">Shop All</a>
           <a href="./nova-trekking-collection.html">Nova Trekking Collection</a>
-          <a href="./defind.html">Defined.</a>
+          <a href="./defined.html">Defined.</a>
           <a href="./our-story.html">Our Story</a>
         </nav>
         <div class="nova-header-actions">
@@ -27,6 +29,9 @@
               <path d="M16 16l5 5"></path>
             </svg>
           </button>
+          <button class="nova-cart-link" type="button" data-cart-open aria-label="Open cart">
+            Cart <span class="nova-cart-count" data-cart-count>0</span>
+          </button>
           <button class="nova-menu-toggle" type="button" aria-expanded="false" aria-controls="NovaMobileNav" data-nova-menu-toggle>
             <span></span>
             <span></span>
@@ -34,77 +39,81 @@
         </div>
       </div>
       <nav class="nova-mobile-nav" id="NovaMobileNav" data-nova-mobile-nav>
-        <a href="./index.html">Shop All</a>
+        <a href="./shop-all.html">Shop All</a>
         <a href="./nova-trekking-collection.html">Nova Trekking Collection</a>
-        <a href="./defind.html">Defined.</a>
+        <a href="./defined.html">Defined.</a>
         <a href="./our-story.html">Our Story</a>
+        <button type="button" data-cart-open>Cart (<span data-cart-count>0</span>)</button>
+        <button type="button" data-search-open>Search</button>
       </nav>
     </header>
 
-    <section class="nova-hero">
-      <div class="nova-hero__image" data-parallax aria-hidden="true"></div>
-      <div class="nova-hero__shade" aria-hidden="true"></div>
-      <div class="nova-hero__content nova-shell" data-reveal-group>
-        <p class="nova-eyebrow" data-reveal>NOVA Clothing</p>
-        <h1 data-reveal>Start Fresh. Be You.</h1>
-        <div class="nova-copy" data-reveal>
-          <p>Clean designs inspired by movement, discipline, and the outdoors.</p>
-        </div>
-        <div class="nova-button-row" data-reveal>
-          <a class="nova-button nova-button--light" href="./index.html">Shop Now</a>
-          <a class="nova-button nova-button--ghost" href="./our-story.html">Our Story</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="nova-home-section nova-home-section--trekking" id="trekking">
-      <div class="nova-shell">
-        <div class="nova-home-section__content" data-reveal-group>
+    <main>
+      <section class="nova-hero">
+        <div class="nova-hero__image" data-parallax aria-hidden="true"></div>
+        <div class="nova-hero__shade" aria-hidden="true"></div>
+        <div class="nova-hero__content nova-shell" data-reveal-group>
           <p class="nova-eyebrow" data-reveal>NOVA Clothing</p>
-          <h2 data-reveal>Nova Trekking Collection</h2>
+          <h1 data-reveal>Start Fresh. Be You.</h1>
           <div class="nova-copy" data-reveal>
-            <p>Outdoor-minded essentials for fresh starts, open trails, and the everyday climb. The collection keeps the monochrome NOVA mood while leaning into mountain air and movement.</p>
+            <p>Clean designs inspired by movement, discipline, and the outdoors.</p>
           </div>
           <div class="nova-button-row" data-reveal>
-            <a class="nova-button nova-button--dark" href="./nova-trekking-collection.html">Explore Trekking</a>
+            <a class="nova-button nova-button--light" href="./shop-all.html">Shop Now</a>
+            <a class="nova-button nova-button--ghost" href="./our-story.html">Our Story</a>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="nova-home-section nova-home-section--story" id="story">
-      <div class="nova-shell nova-home-story" data-reveal-group>
-        <div class="nova-home-story__lead">
-          <p class="nova-eyebrow" data-reveal>Our Story</p>
-          <h2 data-reveal>For people who climb literally and metaphorically.</h2>
+      <section class="nova-home-section nova-home-section--trekking" id="trekking">
+        <div class="nova-shell">
+          <div class="nova-home-section__content" data-reveal-group>
+            <p class="nova-eyebrow" data-reveal>NOVA Clothing</p>
+            <h2 data-reveal>Nova Trekking Collection</h2>
+            <div class="nova-copy" data-reveal>
+              <p>Outdoor-minded essentials for fresh starts, open trails, and the everyday climb. The collection keeps the monochrome NOVA mood while leaning into mountain air and movement.</p>
+            </div>
+            <div class="nova-button-row" data-reveal>
+              <a class="nova-button nova-button--dark" href="./nova-trekking-collection.html">Explore Trekking</a>
+            </div>
+          </div>
         </div>
-        <div class="nova-home-story__body" data-reveal>
-          <p>NOVA is built for people who climb, literally and metaphorically. We create motivational athletic streetwear rooted in discipline, resilience, and real progress. Every piece reminds you that growth isn't a destination. It's a choice you make daily. Start Fresh. Be You.</p>
-          <a class="nova-button nova-button--dark" href="./our-story.html">Read Our Story</a>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="nova-home-section nova-home-section--defined" id="defined">
-      <div class="nova-shell nova-home-defined">
-        <div class="nova-home-defined__content" data-reveal-group>
-          <p class="nova-eyebrow" data-reveal>Defined.</p>
-          <h2 data-reveal>Wear the mindset. Live the work.</h2>
-          <div class="nova-copy" data-reveal>
-            <p>The Defined. side of NOVA is built around the words that steady you on the way up: focus, growth, discipline, resilience, and the choice to keep moving forward.</p>
+      <section class="nova-home-section nova-home-section--story" id="story">
+        <div class="nova-shell nova-home-story" data-reveal-group>
+          <div class="nova-home-story__lead">
+            <p class="nova-eyebrow" data-reveal>Our Story</p>
+            <h2 data-reveal>For people who climb literally and metaphorically.</h2>
           </div>
-          <div class="nova-button-row" data-reveal>
-            <a class="nova-button nova-button--light" href="./defind.html">Explore Defined.</a>
+          <div class="nova-home-story__body" data-reveal>
+            <p>NOVA is built for people who climb, literally and metaphorically. We create motivational athletic streetwear rooted in discipline, resilience, and real progress. Every piece reminds you that growth isn't a destination. It's a choice you make daily. Start Fresh. Be You.</p>
+            <a class="nova-button nova-button--dark" href="./our-story.html">Read Our Story</a>
           </div>
         </div>
-        <div class="nova-home-defined__words" data-reveal data-reveal-direction="left">
-          <span>Focus</span>
-          <span>Growth</span>
-          <span>Discipline</span>
-          <span>Resilience</span>
+      </section>
+
+      <section class="nova-home-section nova-home-section--defined" id="defined">
+        <div class="nova-shell nova-home-defined">
+          <div class="nova-home-defined__content" data-reveal-group>
+            <p class="nova-eyebrow" data-reveal>Defined.</p>
+            <h2 data-reveal>Wear the mindset. Live the work.</h2>
+            <div class="nova-copy" data-reveal>
+              <p>The Defined. side of NOVA is built around the words that steady you on the way up: focus, growth, discipline, resilience, and the choice to keep moving forward.</p>
+            </div>
+            <div class="nova-button-row" data-reveal>
+              <a class="nova-button nova-button--light" href="./defined.html">Explore Defined.</a>
+            </div>
+          </div>
+          <div class="nova-home-defined__words" data-reveal data-reveal-direction="left">
+            <span>Focus</span>
+            <span>Growth</span>
+            <span>Discipline</span>
+            <span>Resilience</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </main>
 
     <footer class="nova-footer">
       <div class="nova-footer__inner">
@@ -114,8 +123,9 @@
         </div>
         <nav class="nova-footer-links" aria-label="Footer navigation">
           <a href="./nova-trekking-collection.html">Nova Trekking Collection</a>
-          <a href="./defind.html">Defined.</a>
+          <a href="./defined.html">Defined.</a>
           <a href="./our-story.html">Our Story</a>
+          <a href="./shop-all.html">Shop All</a>
           <a href="./index.html">Home</a>
         </nav>
       </div>

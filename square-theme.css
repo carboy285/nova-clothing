@@ -218,7 +218,7 @@ body a {
 .nova-banner__image {
   position: absolute;
   inset: 0;
-  background-image: url('./assets/nova-mountain-hero.png');
+  background-image: var(--nova-hero-image, url('./assets/nova-mountain-hero.png'));
   background-size: cover;
   background-position: center;
   filter: grayscale(1);
@@ -567,6 +567,134 @@ body a {
   line-height: 1.5;
 }
 
+.nova-cart-checkout-note {
+  margin: 0 0 14px;
+  color: var(--nova-steel);
+  font-size: .84rem;
+  line-height: 1.45;
+}
+
+.nova-cart-item__square {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: .78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.nova-cart-item__placeholder {
+  width: 82px;
+  height: 102px;
+  background: var(--nova-black);
+}
+
+.nova-word-card--large {
+  min-height: 420px;
+  font-size: clamp(2.4rem, 8vw, 4.5rem);
+}
+
+.nova-word-card--featured {
+  width: 100%;
+}
+
+.nova-section-heading--spaced {
+  margin-top: 72px;
+}
+
+.nova-cart-count[data-empty="true"] {
+  opacity: .45;
+}
+
+.nova-search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 12vh;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.nova-search-overlay[data-open] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nova-search-modal {
+  width: 90%;
+  max-width: 480px;
+  overflow: hidden;
+  border: 1px solid var(--nova-line);
+  border-radius: 12px;
+  background: var(--nova-white);
+  color: var(--nova-ink);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+  transform: translateY(-12px);
+  transition: transform 0.25s ease;
+}
+
+.nova-search-overlay[data-open] .nova-search-modal {
+  transform: translateY(0);
+}
+
+.nova-search-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 0;
+  border-bottom: 1px solid var(--nova-line);
+  background: var(--nova-mist);
+  color: var(--nova-ink);
+  font-size: 1rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.nova-search-input::placeholder {
+  color: var(--nova-steel);
+}
+
+.nova-search-results {
+  max-height: 320px;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.nova-search-results li {
+  border-bottom: 1px solid var(--nova-line);
+}
+
+.nova-search-results li:last-child {
+  border-bottom: 0;
+}
+
+.nova-search-results a {
+  display: block;
+  padding: 14px 20px;
+  color: var(--nova-ink);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.nova-search-results a:hover,
+.nova-search-results a:focus {
+  background: var(--nova-mist);
+}
+
+.nova-search-empty {
+  padding: 20px;
+  color: var(--nova-steel);
+  text-align: center;
+}
+
 .nova-banner {
   min-height: 620px;
   position: relative;
@@ -756,7 +884,7 @@ body a {
 .nova-collection-hero__image {
   position: absolute;
   inset: 0;
-  background-image: url('./assets/nova-mountain-hero.png');
+  background-image: var(--nova-hero-image, url('./assets/nova-mountain-hero.png'));
   background-size: cover;
   background-position: center;
   filter: grayscale(1);
@@ -970,7 +1098,6 @@ body a {
   }
 
   .nova-nav,
-  .nova-cart-link,
   .nova-story-search {
     display: none;
   }

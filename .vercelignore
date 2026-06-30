@@ -1,2 +1,8 @@
 node_modules/
 dist/
+
+# Dev / Square-specific files
+asset-check.html
+square-global-header-code.html
+square-global-footer-code.html
+square-homepage-custom-section.html
