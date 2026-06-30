@@ -1,5 +1,9 @@
 node_modules/
 dist/
 
+# Storefront images must be committed so source/static deploys can load them.
+!assets/
+!assets/**
+
 # Dev / Square-specific files (kept in dev/ for local reference only)
 dev/
