@@ -5,6 +5,7 @@
   "description": "Static NOVA Clothing storefront ready for GitHub, Vercel, and Netlify.",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
+    "prebuild": "node scripts/check-assets.js",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0"
   },
