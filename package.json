@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Static NOVA Clothing storefront ready for GitHub, Vercel, and Netlify.",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "prebuild": "node scripts/check-assets.js",
@@ -10,6 +13,6 @@
     "preview": "vite preview --host 0.0.0.0"
   },
   "devDependencies": {
-    "vite": "^5.4.11"
+    "vite": "5.4.21"
   }
 }
