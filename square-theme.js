@@ -5,6 +5,7 @@ import novaResetFallbackImage from './assets/nova-reset-tee-front.jpg?url';
 import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-front.jpg?url';
 import keepClimbingSweatShortsFallbackImage from './assets/keep-climbing-sweat-shorts-pepper-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
+import resilienceTeeFallbackImage from './assets/resilience-tee-white.jpg?url';
 
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
@@ -63,6 +64,11 @@ document.addEventListener('DOMContentLoaded', () => {
       url: './resilience-hoodie.html',
       squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
     },
+    'resilience-tee': {
+      name: 'Resilience T-Shirt',
+      url: './resilience-tee.html',
+      squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
+    },
   };
 
   const searchProducts = Object.values(productCatalog);
@@ -74,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'keep-climbing-tee': keepClimbingFallbackImage,
     'mountains-wait-tee': mountainsWaitFallbackImage,
     'nova-reset-tee': novaResetFallbackImage,
+    'resilience-tee': resilienceTeeFallbackImage,
   };
 
   const logoImageFallback = logoFallbackImage;
@@ -210,6 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
       || sourcePath.endsWith('/assets/keep-climbing-sweat-shorts-pepper-front.jpg')
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
       || sourcePath.endsWith('/assets/nova-reset-tee-front.jpg')
+      || sourcePath.endsWith('/assets/resilience-tee-white.jpg')
     );
   };
 
@@ -249,6 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
     if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
     if (marker.includes('nova reset')) return productImageFallbacks['nova-reset-tee'];
+    if (marker.includes('resilience t-shirt') || marker.includes('resilience tee')) return productImageFallbacks['resilience-tee'];
     if (marker.includes('nova clothing') || marker.includes('nova-logo-full')) return logoImageFallback;
 
     return '';
