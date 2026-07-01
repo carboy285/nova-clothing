@@ -1,6 +1,7 @@
 import keepClimbingFallbackImage from './assets/keep-climbing-mountain-tee-front.jpg?url';
 import mountainsWaitFallbackImage from './assets/mountains-wait-tee-front.jpg?url';
 import novaResetFallbackImage from './assets/nova-reset-tee-front.jpg?url';
+import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const productCatalog = {
+    'keep-climbing-cap': {
+      name: 'Keep Climbing Baseball Cap',
+      url: './keep-climbing-baseball-cap.html',
+      squareUrl: `${squareStoreUrl}shop/nova-treking-collection/C4JR5KKWC5PKC6NJCYPYW53E`,
+    },
     'keep-climbing-tee': {
       name: 'Keep Climbing Mountain graphic Tee',
       url: './keep-climbing-mountain-tee.html',
@@ -50,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchProducts = Object.values(productCatalog);
 
   const productImageFallbacks = {
+    'keep-climbing-cap': keepClimbingCapFallbackImage,
     'keep-climbing-tee': keepClimbingFallbackImage,
     'mountains-wait-tee': mountainsWaitFallbackImage,
     'nova-reset-tee': novaResetFallbackImage,
@@ -184,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sourcePath = item.image.split('?')[0];
     return (
       sourcePath.endsWith('/assets/keep-climbing-mountain-tee-front.jpg')
+      || sourcePath.endsWith('/assets/keep-climbing-baseball-cap-front.jpg')
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
       || sourcePath.endsWith('/assets/nova-reset-tee-front.jpg')
     );
@@ -219,6 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const getImageFallback = (image) => {
     const marker = `${image.alt || ''} ${image.getAttribute('src') || ''}`.toLowerCase();
 
+    if (marker.includes('baseball cap')) return productImageFallbacks['keep-climbing-cap'];
     if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
     if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
     if (marker.includes('nova reset')) return productImageFallbacks['nova-reset-tee'];
