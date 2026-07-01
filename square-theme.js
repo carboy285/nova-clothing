@@ -463,6 +463,12 @@ document.addEventListener('DOMContentLoaded', () => {
       button.addEventListener('click', () => {
         document.querySelectorAll('[data-color-option]').forEach((option) => option.classList.remove('is-selected'));
         button.classList.add('is-selected');
+        
+        const featuredImage = document.querySelector('.nova-product-gallery__featured');
+        if (featuredImage && button.dataset.image) {
+          featuredImage.src = button.dataset.image;
+        }
+        
         syncSelectedProductVariant();
       });
     });
@@ -590,6 +596,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const productId = link.dataset.squareBuy;
     const squareUrl = getProductSquareUrl(productId);
     if (squareUrl) link.href = squareUrl;
+  });
+
+  // Enable click-to-swap thumbnails in product gallery
+  document.querySelectorAll('.nova-product-gallery img').forEach((img) => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => {
+      const featured = document.querySelector('.nova-product-gallery__featured');
+      if (featured && img !== featured) {
+        const tempSrc = featured.src;
+        featured.src = img.src;
+        img.src = tempSrc;
+
+        const tempAlt = featured.alt;
+        featured.alt = img.alt;
+        img.alt = tempAlt;
+      }
+    });
   });
 
   initCart();
