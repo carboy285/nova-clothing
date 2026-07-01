@@ -6,7 +6,6 @@ import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-fr
 import keepClimbingSweatShortsFallbackImage from './assets/keep-climbing-sweat-shorts-pepper-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 import resilienceTeeFallbackImage from './assets/resilience-tee-white.jpg?url';
-import resilienceTeeBlackImage from './assets/resilience-tee-black.jpg?url';
 
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
@@ -86,12 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const logoImageFallback = logoFallbackImage;
 
-  document.querySelectorAll('[data-color="Black"][data-image]').forEach((button) => {
-    button.dataset.image = resilienceTeeBlackImage;
-  });
-  document.querySelectorAll('img[src$="resilience-tee-black.jpg"]').forEach((image) => {
-    image.src = resilienceTeeBlackImage;
-  });
 
   const escapeHTML = (str) => {
     if (typeof str !== 'string') return '';
@@ -400,6 +393,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const initCart = () => {
+    const galleryImages = Array.from(document.querySelectorAll('.nova-product-gallery img'));
+
+    document.querySelectorAll('[data-color-option][data-image]').forEach((button) => {
+      const color = (button.dataset.color || '').toLowerCase();
+      const matchingImage = galleryImages.find((image) => (image.alt || '').toLowerCase().startsWith(color));
+      if (matchingImage) {
+        button.dataset.image = matchingImage.currentSrc || matchingImage.src;
+      }
+    });
+
     const syncSelectedProductVariant = () => {
       const sizeButton = document.querySelector('[data-size-option].is-selected');
       if (!sizeButton) return;
@@ -475,6 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const featuredImage = document.querySelector('.nova-product-gallery__featured');
         if (featuredImage && button.dataset.image) {
           featuredImage.src = button.dataset.image;
+          featuredImage.alt = `${button.dataset.color} Resilience T-Shirt`;
         }
         
         syncSelectedProductVariant();
