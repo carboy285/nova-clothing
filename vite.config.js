@@ -11,6 +11,7 @@ export default defineConfig({
         story: resolve(__dirname, 'our-story.html'),
         collection: resolve(__dirname, 'nova-trekking-collection.html'),
         keepClimbingCap: resolve(__dirname, 'keep-climbing-baseball-cap.html'),
+        keepClimbingSweatShorts: resolve(__dirname, 'keep-climbing-sweat-shorts.html'),
         keepClimbingProduct: resolve(__dirname, 'keep-climbing-mountain-tee.html'),
         mountainsWaitProduct: resolve(__dirname, 'mountains-wait-we-dont-tee.html'),
         novaResetProduct: resolve(__dirname, 'nova-reset-tee.html'),

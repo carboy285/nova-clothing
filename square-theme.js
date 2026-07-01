@@ -2,6 +2,7 @@ import keepClimbingFallbackImage from './assets/keep-climbing-mountain-tee-front
 import mountainsWaitFallbackImage from './assets/mountains-wait-tee-front.jpg?url';
 import novaResetFallbackImage from './assets/nova-reset-tee-front.jpg?url';
 import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-front.jpg?url';
+import keepClimbingSweatShortsFallbackImage from './assets/keep-climbing-sweat-shorts-pepper-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,6 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   const productCatalog = {
+    'keep-climbing-sweat-shorts': {
+      name: 'Keep Climbing Sweat Shorts',
+      url: './keep-climbing-sweat-shorts.html',
+      squareUrl: `${squareStoreUrl}shop/nova-treking-collection/C4JR5KKWC5PKC6NJCYPYW53E`,
+    },
     'keep-climbing-cap': {
       name: 'Keep Climbing Baseball Cap',
       url: './keep-climbing-baseball-cap.html',
@@ -56,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchProducts = Object.values(productCatalog);
 
   const productImageFallbacks = {
+    'keep-climbing-sweat-shorts': keepClimbingSweatShortsFallbackImage,
     'keep-climbing-cap': keepClimbingCapFallbackImage,
     'keep-climbing-tee': keepClimbingFallbackImage,
     'mountains-wait-tee': mountainsWaitFallbackImage,
@@ -192,6 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return (
       sourcePath.endsWith('/assets/keep-climbing-mountain-tee-front.jpg')
       || sourcePath.endsWith('/assets/keep-climbing-baseball-cap-front.jpg')
+      || sourcePath.endsWith('/assets/keep-climbing-sweat-shorts-pepper-front.jpg')
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
       || sourcePath.endsWith('/assets/nova-reset-tee-front.jpg')
     );
@@ -206,9 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const productId = button.dataset.productId;
     return (
       resolveImageSource(button.closest('.nova-product-card')?.querySelector('img'))
+      || button.dataset.productImage
       || resolveImageSource(document.querySelector('.nova-product-gallery__featured'))
       || resolveImageSource(document.querySelector('.nova-word-card--large'))
-      || button.dataset.productImage
       || getProductFallbackImage(productId)
     );
   };
@@ -228,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const marker = `${image.alt || ''} ${image.getAttribute('src') || ''}`.toLowerCase();
 
     if (marker.includes('baseball cap')) return productImageFallbacks['keep-climbing-cap'];
+    if (marker.includes('sweat shorts')) return productImageFallbacks['keep-climbing-sweat-shorts'];
     if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
     if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
     if (marker.includes('nova reset')) return productImageFallbacks['nova-reset-tee'];
@@ -365,18 +374,27 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const initCart = () => {
-    const syncSelectedProductPrice = (sizeButton) => {
+    const syncSelectedProductVariant = () => {
+      const sizeButton = document.querySelector('[data-size-option].is-selected');
       if (!sizeButton) return;
 
       const addButton = document.querySelector('.nova-product-actions [data-add-to-cart]');
       const priceDisplay = document.querySelector('[data-product-price-display]');
-      const nextPrice = Number(sizeButton.dataset.price || 0);
+      const colorButton = document.querySelector('[data-color-option].is-selected');
+      const color = colorButton?.dataset.color || '';
+      const variant = Array.from(document.querySelectorAll('[data-product-variant]')).find(
+        (option) => option.dataset.size === sizeButton.dataset.size && option.dataset.color === color,
+      );
+      const nextPrice = Number(variant?.dataset.price || sizeButton.dataset.price || addButton?.dataset.productPrice || 0);
 
       if (addButton) {
         addButton.dataset.productSize = sizeButton.dataset.size;
-        addButton.dataset.productPrice = sizeButton.dataset.price;
-        if (sizeButton.dataset.sku) {
-          addButton.dataset.productSku = sizeButton.dataset.sku;
+        addButton.dataset.productPrice = String(nextPrice);
+        if (color) addButton.dataset.productColor = color;
+        if (colorButton?.dataset.image) addButton.dataset.productImage = colorButton.dataset.image;
+        const sku = variant?.dataset.sku || sizeButton.dataset.sku;
+        if (sku) {
+          addButton.dataset.productSku = sku;
         }
       }
 
@@ -419,11 +437,19 @@ document.addEventListener('DOMContentLoaded', () => {
       button.addEventListener('click', () => {
         document.querySelectorAll('[data-size-option]').forEach((option) => option.classList.remove('is-selected'));
         button.classList.add('is-selected');
-        syncSelectedProductPrice(button);
+        syncSelectedProductVariant();
       });
     });
 
-    syncSelectedProductPrice(document.querySelector('[data-size-option].is-selected'));
+    document.querySelectorAll('[data-color-option]').forEach((button) => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('[data-color-option]').forEach((option) => option.classList.remove('is-selected'));
+        button.classList.add('is-selected');
+        syncSelectedProductVariant();
+      });
+    });
+
+    syncSelectedProductVariant();
 
     document.querySelectorAll('[data-add-to-cart]').forEach((button) => {
       button.addEventListener('click', (event) => {
@@ -433,7 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const product = {
           id: button.dataset.productId,
           name: button.dataset.productName,
-          size: button.dataset.productSize || 'M',
+          size: [button.dataset.productSize || 'M', button.dataset.productColor].filter(Boolean).join(' / '),
           sku: button.dataset.productSku || '',
           price: Number(button.dataset.productPrice || 0),
           image: resolveProductImage(button),
