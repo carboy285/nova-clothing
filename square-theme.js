@@ -403,6 +403,31 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
+    const updateAvailableSizes = () => {
+      const color = document.querySelector('[data-color-option].is-selected')?.dataset.color || '';
+      const variants = Array.from(document.querySelectorAll('[data-product-variant]'));
+      if (!color || !variants.length) return;
+
+      const availableSizes = new Set(
+        variants
+          .filter((variant) => variant.dataset.color === color)
+          .map((variant) => variant.dataset.size),
+      );
+      const sizeButtons = Array.from(document.querySelectorAll('[data-size-option]'));
+
+      sizeButtons.forEach((button) => {
+        const isAvailable = availableSizes.has(button.dataset.size);
+        button.disabled = !isAvailable;
+        button.setAttribute('aria-disabled', String(!isAvailable));
+        if (!isAvailable) button.classList.remove('is-selected');
+      });
+
+      if (!sizeButtons.some((button) => button.classList.contains('is-selected'))) {
+        const preferredSize = sizeButtons.find((button) => button.dataset.size === 'M' && !button.disabled);
+        (preferredSize || sizeButtons.find((button) => !button.disabled))?.classList.add('is-selected');
+      }
+    };
+
     const syncSelectedProductVariant = () => {
       const sizeButton = document.querySelector('[data-size-option].is-selected');
       if (!sizeButton) return;
@@ -464,6 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('[data-size-option]').forEach((button) => {
       button.addEventListener('click', () => {
+        if (button.disabled) return;
         document.querySelectorAll('[data-size-option]').forEach((option) => option.classList.remove('is-selected'));
         button.classList.add('is-selected');
         syncSelectedProductVariant();
@@ -481,10 +507,12 @@ document.addEventListener('DOMContentLoaded', () => {
           featuredImage.alt = `${button.dataset.color} Resilience T-Shirt`;
         }
         
+        updateAvailableSizes();
         syncSelectedProductVariant();
       });
     });
 
+    updateAvailableSizes();
     syncSelectedProductVariant();
 
     document.querySelectorAll('[data-add-to-cart]').forEach((button) => {
