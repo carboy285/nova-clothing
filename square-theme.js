@@ -6,6 +6,7 @@ import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-fr
 import keepClimbingSweatShortsFallbackImage from './assets/keep-climbing-sweat-shorts-pepper-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 import resilienceTeeFallbackImage from './assets/resilience-tee-white.jpg?url';
+import resilienceTeeBlackImage from './assets/resilience-tee-black.jpg?url';
 
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
@@ -84,6 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const logoImageFallback = logoFallbackImage;
+
+  document.querySelectorAll('[data-color="Black"][data-image]').forEach((button) => {
+    button.dataset.image = resilienceTeeBlackImage;
+  });
+  document.querySelectorAll('img[src$="resilience-tee-black.jpg"]').forEach((image) => {
+    image.src = resilienceTeeBlackImage;
+  });
 
   const escapeHTML = (str) => {
     if (typeof str !== 'string') return '';
