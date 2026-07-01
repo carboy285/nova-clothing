@@ -21,6 +21,7 @@ export default defineConfig({
         growthTee: resolve(__dirname, 'growth-tee.html'),
         disciplineCrew: resolve(__dirname, 'discipline-crew.html'),
         resilienceHoodie: resolve(__dirname, 'resilience-hoodie.html'),
+        resilienceTee: resolve(__dirname, 'resilience-tee.html'),
         defindRedirect: resolve(__dirname, 'defind.html'),
       },
     },
