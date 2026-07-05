@@ -19,6 +19,7 @@ export default defineConfig({
         defined: resolve(__dirname, 'defined.html'),
         focusTee: resolve(__dirname, 'focus-tee.html'),
         growthTee: resolve(__dirname, 'growth-tee.html'),
+        growthDefinitionTee: resolve(__dirname, 'growth-definition-tee.html'),
         disciplineCrew: resolve(__dirname, 'discipline-crew.html'),
         resilienceHoodie: resolve(__dirname, 'resilience-hoodie.html'),
         resilienceTee: resolve(__dirname, 'resilience-tee.html'),

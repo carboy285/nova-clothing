@@ -6,6 +6,7 @@ import keepClimbingCapFallbackImage from './assets/keep-climbing-baseball-cap-fr
 import keepClimbingSweatShortsFallbackImage from './assets/keep-climbing-sweat-shorts-pepper-front.jpg?url';
 import logoFallbackImage from './assets/nova-logo-full.png?url';
 import resilienceTeeFallbackImage from './assets/resilience-tee-white.jpg?url';
+import growthDefinitionTeeFallbackImage from './assets/growth-definition-tee-white.jpg?url';
 
 document.addEventListener('DOMContentLoaded', () => {
   const cartStorageKey = 'nova-cart';
@@ -54,6 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
       url: './growth-tee.html',
       squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
     },
+    'growth-definition-tee': {
+      name: 'Growth Definition Tee',
+      url: './growth-definition-tee.html',
+      squareUrl: `${squareStoreUrl}shop/defined/HARTQ3CIETG2LDLOCADT25HM`,
+    },
     'discipline-crew': {
       name: 'Discipline Crew',
       url: './discipline-crew.html',
@@ -81,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'mountains-wait-tee': mountainsWaitFallbackImage,
     'nova-reset-tee': novaResetFallbackImage,
     'resilience-tee': resilienceTeeFallbackImage,
+    'growth-definition-tee': growthDefinitionTeeFallbackImage,
   };
 
   const logoImageFallback = logoFallbackImage;
@@ -219,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
       || sourcePath.endsWith('/assets/mountains-wait-tee-front.jpg')
       || sourcePath.endsWith('/assets/nova-reset-tee-front.jpg')
       || sourcePath.endsWith('/assets/resilience-tee-white.jpg')
+      || sourcePath.endsWith('/assets/growth-definition-tee-white.jpg')
     );
   };
 
@@ -258,6 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (marker.includes('keep climbing')) return productImageFallbacks['keep-climbing-tee'];
     if (marker.includes('mountains wait')) return productImageFallbacks['mountains-wait-tee'];
     if (marker.includes('nova reset')) return productImageFallbacks['nova-reset-tee'];
+    if (marker.includes('growth definition tee')) return productImageFallbacks['growth-definition-tee'];
     if (marker.includes('resilience t-shirt') || marker.includes('resilience tee')) return productImageFallbacks['resilience-tee'];
     if (marker.includes('nova clothing') || marker.includes('nova-logo-full')) return logoImageFallback;
 
@@ -504,7 +513,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const featuredImage = document.querySelector('.nova-product-gallery__featured');
         if (featuredImage && button.dataset.image) {
           featuredImage.src = button.dataset.image;
-          featuredImage.alt = `${button.dataset.color} Resilience T-Shirt`;
+          const productName = document.querySelector('.nova-product-actions [data-add-to-cart]')?.dataset.productName || 'product';
+          featuredImage.alt = `${button.dataset.color} ${productName}`;
         }
         
         updateAvailableSizes();
